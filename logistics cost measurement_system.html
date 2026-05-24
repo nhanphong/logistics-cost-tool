@@ -1,0 +1,714 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue-50:#EFF6FF;--blue-100:#DBEAFE;--blue-300:#93C5FD;--blue-500:#3B82F6;--blue-600:#2563EB;--blue-700:#1D4ED8;--blue-900:#1E3A8A;
+  --teal-50:#F0FDFA;--teal-300:#5EEAD4;--teal-500:#14B8A6;--teal-600:#0D9488;
+  --slate-50:#F8FAFC;--slate-100:#F1F5F9;--slate-200:#E2E8F0;--slate-300:#CBD5E1;--slate-400:#94A3B8;--slate-500:#64748B;--slate-600:#475569;--slate-700:#334155;--slate-800:#1E293B;--slate-900:#0F172A;
+  --amber-500:#F59E0B;--amber-600:#D97706;
+  --emerald-500:#10B981;--emerald-600:#059669;
+  --rose-500:#F43F5E;--rose-600:#E11D48;
+  --violet-500:#8B5CF6;--violet-600:#7C3AED;
+  --orange-500:#F97316;
+  --radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:20px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,.08),0 2px 6px rgba(0,0,0,.04);
+  --shadow-lg:0 10px 30px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.04);
+  --transition:.2s cubic-bezier(.4,0,.2,1);
+}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--slate-50);color:var(--slate-800);min-height:100vh;line-height:1.5}
+.dark body{background:#0A0F1E;color:#E2E8F0}
+
+/* DARK MODE */
+.dark{--slate-50:#0A0F1E;--slate-100:#111827;--slate-200:#1F2937;--slate-300:#374151;--slate-400:#6B7280;--slate-500:#9CA3AF;--slate-600:#D1D5DB;--slate-700:#E5E7EB;--slate-800:#F9FAFB;--slate-900:#FFFFFF;--blue-50:#0C1A3A;--blue-100:#1E3A6E;--teal-50:#0C2421}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,var(--blue-700) 0%,var(--blue-900) 60%,#0F2460 100%);padding:28px 32px;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-40px;right:-40px;width:300px;height:300px;background:rgba(255,255,255,.03);border-radius:50%}
+.header::after{content:'';position:absolute;bottom:-60px;left:30%;width:200px;height:200px;background:rgba(59,130,246,.15);border-radius:50%;filter:blur(40px)}
+.header-inner{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;position:relative;z-index:1}
+.brand{display:flex;align-items:center;gap:14px}
+.brand-icon{width:48px;height:48px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;backdrop-filter:blur(8px)}
+.brand-text h1{font-size:20px;font-weight:700;color:#fff;letter-spacing:-.4px}
+.brand-text p{font-size:13px;color:rgba(255,255,255,.65);margin-top:2px}
+.header-meta{text-align:right}
+.header-meta .developer{font-size:12px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.8px;font-weight:500}
+.header-meta .author{font-size:15px;color:rgba(255,255,255,.9);font-weight:600;margin-top:2px}
+.header-actions{display:flex;gap:8px;margin-top:8px;justify-content:flex-end}
+.btn-header{padding:7px 14px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;transition:var(--transition);font-family:inherit;display:flex;align-items:center;gap:5px}
+.btn-header:hover{background:rgba(255,255,255,.18)}
+.dark-toggle{width:36px;height:36px;padding:0;justify-content:center}
+
+/* MAIN LAYOUT */
+.main{max-width:1400px;margin:0 auto;padding:24px 24px 48px}
+
+/* SLIDER SECTION */
+.slider-section{background:#fff;border-radius:var(--radius-xl);padding:28px 32px;margin-bottom:20px;box-shadow:var(--shadow-md);border:1px solid var(--slate-200)}
+.dark .slider-section{background:var(--slate-100);border-color:var(--slate-300)}
+.slider-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.slider-header h2{font-size:17px;font-weight:600;color:var(--slate-800)}
+.slider-badge{display:flex;align-items:center;gap:10px}
+.warehouse-display{display:flex;align-items:center;gap:8px}
+.warehouse-num{font-size:40px;font-weight:700;color:var(--blue-600);font-family:'JetBrains Mono',monospace;line-height:1;transition:all .3s}
+.warehouse-label{font-size:13px;color:var(--slate-500);font-weight:500}
+.optimal-badge{background:var(--emerald-500);color:#fff;font-size:11px;padding:4px 10px;border-radius:20px;font-weight:600;opacity:0;transition:all .3s}
+.optimal-badge.show{opacity:1}
+.slider-track-wrap{position:relative}
+.slider-input{width:100%;height:6px;-webkit-appearance:none;appearance:none;background:var(--slate-200);border-radius:10px;outline:none;cursor:pointer}
+.slider-input::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--blue-600);border:3px solid #fff;box-shadow:0 2px 8px rgba(37,99,235,.4);cursor:pointer;transition:transform .2s}
+.slider-input::-webkit-slider-thumb:hover{transform:scale(1.15)}
+.slider-ticks{display:flex;justify-content:space-between;margin-top:8px;padding:0 4px}
+.slider-tick{font-size:11px;color:var(--slate-400);font-weight:500}
+.slider-tick.active{color:var(--blue-600);font-weight:700}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:20px}
+.kpi-card{background:#fff;border-radius:var(--radius-lg);padding:18px 20px;box-shadow:var(--shadow-sm);border:1px solid var(--slate-200);transition:all .25s;position:relative;overflow:hidden}
+.kpi-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.dark .kpi-card{background:var(--slate-100);border-color:var(--slate-300)}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius-lg) var(--radius-lg) 0 0}
+.kpi-card.c1::before{background:var(--blue-500)}
+.kpi-card.c2::before{background:var(--teal-500)}
+.kpi-card.c3::before{background:var(--amber-500)}
+.kpi-card.c4::before{background:var(--rose-500)}
+.kpi-card.c5::before{background:linear-gradient(90deg,var(--violet-500),var(--blue-500))}
+.kpi-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.kpi-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.kpi-card.c1 .kpi-icon{background:var(--blue-50);color:var(--blue-600)}
+.kpi-card.c2 .kpi-icon{background:var(--teal-50);color:var(--teal-600)}
+.kpi-card.c3 .kpi-icon{background:#FFFBEB;color:var(--amber-600)}
+.kpi-card.c4 .kpi-icon{background:#FFF1F2;color:var(--rose-600)}
+.kpi-card.c5 .kpi-icon{background:var(--blue-50);color:var(--violet-600)}
+.kpi-delta{font-size:11px;font-weight:600;padding:3px 7px;border-radius:6px}
+.kpi-delta.up{background:#FFF1F2;color:var(--rose-600)}
+.kpi-delta.down{background:#F0FDF4;color:var(--emerald-600)}
+.kpi-label{font-size:11px;color:var(--slate-500);font-weight:500;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.kpi-value{font-size:22px;font-weight:700;color:var(--slate-800);font-family:'JetBrains Mono',monospace;letter-spacing:-1px;transition:all .4s}
+.kpi-sub{font-size:11px;color:var(--slate-400);margin-top:3px}
+
+/* GRID LAYOUT */
+.content-grid{display:grid;grid-template-columns:1fr 340px;gap:20px;margin-bottom:20px}
+@media(max-width:900px){.content-grid{grid-template-columns:1fr}}
+
+/* CHART SECTION */
+.chart-section{background:#fff;border-radius:var(--radius-xl);padding:24px;box-shadow:var(--shadow-md);border:1px solid var(--slate-200)}
+.dark .chart-section{background:var(--slate-100);border-color:var(--slate-300)}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.section-title{font-size:15px;font-weight:600;color:var(--slate-800)}
+.section-subtitle{font-size:12px;color:var(--slate-500);margin-top:2px}
+.chart-legend{display:flex;flex-wrap:wrap;gap:10px}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--slate-600);font-weight:500}
+.legend-dot{width:8px;height:8px;border-radius:50%}
+.legend-line{width:16px;height:2px;border-radius:2px}
+.chart-wrap{position:relative;height:280px}
+
+/* RIGHT PANEL */
+.right-panel{display:flex;flex-direction:column;gap:16px}
+
+/* AI ANALYSIS */
+.ai-box{background:#fff;border-radius:var(--radius-xl);padding:22px;box-shadow:var(--shadow-md);border:1px solid var(--slate-200)}
+.dark .ai-box{background:var(--slate-100);border-color:var(--slate-300)}
+.ai-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.ai-pulse{width:10px;height:10px;border-radius:50%;background:var(--emerald-500);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.7;transform:scale(1.15)}}
+.ai-status{font-size:12px;font-weight:600;color:var(--emerald-600);text-transform:uppercase;letter-spacing:.5px}
+.ai-text{font-size:13px;color:var(--slate-600);line-height:1.7;min-height:80px;transition:all .3s}
+.ai-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;margin-top:10px}
+.ai-badge.under{background:#FFF1F2;color:var(--rose-600)}
+.ai-badge.optimal{background:#F0FDF4;color:var(--emerald-600)}
+.ai-badge.over{background:#FFFBEB;color:var(--amber-600)}
+
+/* EOQ */
+.eoq-box{background:linear-gradient(135deg,var(--blue-50),#F0F9FF);border-radius:var(--radius-xl);padding:22px;border:1px solid var(--blue-100)}
+.dark .eoq-box{background:linear-gradient(135deg,var(--blue-50),#0C1A3A);border-color:var(--blue-100)}
+.eoq-title{font-size:14px;font-weight:600;color:var(--slate-800);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.eoq-inputs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.eoq-input-wrap{display:flex;flex-direction:column;gap:4px}
+.eoq-input-wrap label{font-size:10px;color:var(--slate-500);font-weight:600;text-transform:uppercase}
+.eoq-input{width:100%;padding:7px 9px;border:1.5px solid var(--slate-200);border-radius:8px;font-size:13px;font-weight:600;color:var(--slate-800);background:#fff;font-family:'JetBrains Mono',monospace;outline:none;transition:var(--transition)}
+.eoq-input:focus{border-color:var(--blue-500)}
+.eoq-result{background:#fff;border-radius:12px;padding:14px;border:1px solid var(--blue-100);display:flex;align-items:center;gap:12px}
+.eoq-num{font-size:28px;font-weight:700;color:var(--blue-600);font-family:'JetBrains Mono',monospace}
+.eoq-detail{font-size:11px;color:var(--slate-500);line-height:1.6}
+
+/* BOTTOM GRID */
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:700px){.bottom-grid{grid-template-columns:1fr}}
+
+/* AI RECOMMEND */
+.recommend-box{background:#fff;border-radius:var(--radius-xl);padding:24px;box-shadow:var(--shadow-md);border:1px solid var(--slate-200)}
+.dark .recommend-box{background:var(--slate-100);border-color:var(--slate-300)}
+.btn-primary{padding:11px 20px;background:linear-gradient(135deg,var(--blue-600),var(--blue-700));color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:7px;font-family:inherit;width:100%;justify-content:center}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.35)}
+.btn-primary:active{transform:translateY(0)}
+.btn-primary:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.recommend-result{margin-top:16px;padding:16px;background:linear-gradient(135deg,var(--blue-50),#F0F9FF);border-radius:12px;border:1px solid var(--blue-100);display:none}
+.recommend-result.show{display:block;animation:fadeIn .4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.recommend-num{font-size:36px;font-weight:700;color:var(--blue-700);font-family:'JetBrains Mono',monospace;text-align:center}
+.recommend-text{font-size:12px;color:var(--slate-600);line-height:1.7;margin-top:8px}
+
+/* EXPORT BOX */
+.export-box{background:#fff;border-radius:var(--radius-xl);padding:24px;box-shadow:var(--shadow-md);border:1px solid var(--slate-200)}
+.dark .export-box{background:var(--slate-100);border-color:var(--slate-300)}
+.export-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.btn-export{padding:12px 14px;border:1.5px solid var(--slate-200);border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:7px;font-family:inherit;background:#fff;color:var(--slate-700);justify-content:center}
+.btn-export:hover{border-color:var(--blue-400);color:var(--blue-600);background:var(--blue-50)}
+.dark .btn-export{background:var(--slate-200);border-color:var(--slate-300);color:var(--slate-700)}
+
+/* FOOTER */
+.footer{text-align:center;padding:20px;font-size:12px;color:var(--slate-400)}
+
+/* TOAST */
+.toast{position:fixed;top:20px;right:20px;background:var(--slate-800);color:#fff;padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;z-index:999;opacity:0;transform:translateY(-8px);transition:all .3s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* LOADING BAR */
+.loading-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue-500),var(--teal-500));z-index:1000;width:0;transition:width .3s}
+
+/* COUNTER ANIM */
+@keyframes countUp{from{opacity:.5}to{opacity:1}}
+.counting{animation:countUp .25s ease}
+</style>
+
+<div class="loading-bar" id="loadingBar"></div>
+<div class="toast" id="toast"></div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-icon">🚢</div>
+      <div class="brand-text">
+        <h1>Logistics Cost Measurement System</h1>
+        <p>Bộ công cụ đo lường và tối ưu chi phí logistics</p>
+      </div>
+    </div>
+    <div class="header-meta">
+      <div class="developer">Developed by Captain's Log</div>
+      <div class="author">Nhân Phong</div>
+      <div class="header-actions">
+        <button class="btn-header dark-toggle" onclick="toggleDark()" title="Dark mode">🌙</button>
+        <button class="btn-header" onclick="saveData()">💾 Lưu</button>
+        <button class="btn-header" onclick="exportPDF()">📄 PDF</button>
+        <button class="btn-header" onclick="exportExcel()">📊 Excel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- SLIDER -->
+  <div class="slider-section">
+    <div class="slider-header">
+      <div>
+        <h2>📦 Số lượng kho trong mạng lưới phân phối</h2>
+        <p style="font-size:12px;color:var(--slate-500);margin-top:3px">Kéo slider để mô phỏng tác động của số kho đến tổng chi phí logistics</p>
+      </div>
+      <div class="slider-badge">
+        <div class="warehouse-display">
+          <span class="warehouse-num" id="warehouseNum">3</span>
+          <div>
+            <div class="warehouse-label">kho</div>
+            <div class="optimal-badge" id="optBadge">✓ Tối ưu</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slider-track-wrap">
+      <input type="range" class="slider-input" id="warehouseSlider" min="1" max="12" value="3" step="1">
+    </div>
+    <div class="slider-ticks">
+      <span class="slider-tick active" id="tick1">1</span>
+      <span class="slider-tick" id="tick2">2</span>
+      <span class="slider-tick" id="tick3">3</span>
+      <span class="slider-tick" id="tick4">4</span>
+      <span class="slider-tick" id="tick5">5</span>
+      <span class="slider-tick" id="tick6">6</span>
+      <span class="slider-tick" id="tick7">7</span>
+      <span class="slider-tick" id="tick8">8</span>
+      <span class="slider-tick" id="tick9">9</span>
+      <span class="slider-tick" id="tick10">10</span>
+      <span class="slider-tick" id="tick11">11</span>
+      <span class="slider-tick" id="tick12">12</span>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="kpi-grid" id="kpiGrid">
+    <div class="kpi-card c1">
+      <div class="kpi-top">
+        <div class="kpi-icon">🚚</div>
+        <span class="kpi-delta" id="d1">▼ 0%</span>
+      </div>
+      <div class="kpi-label">Vận tải chặng cuối</div>
+      <div class="kpi-value" id="v1">0</div>
+      <div class="kpi-sub">tỷ VNĐ / năm</div>
+    </div>
+    <div class="kpi-card c2">
+      <div class="kpi-top">
+        <div class="kpi-icon">🏭</div>
+        <span class="kpi-delta" id="d2">▲ 0%</span>
+      </div>
+      <div class="kpi-label">Vận tải đầu vào</div>
+      <div class="kpi-value" id="v2">0</div>
+      <div class="kpi-sub">tỷ VNĐ / năm</div>
+    </div>
+    <div class="kpi-card c3">
+      <div class="kpi-top">
+        <div class="kpi-icon">🏗️</div>
+        <span class="kpi-delta" id="d3">▲ 0%</span>
+      </div>
+      <div class="kpi-label">Chi phí kho bãi</div>
+      <div class="kpi-value" id="v3">0</div>
+      <div class="kpi-sub">tỷ VNĐ / năm</div>
+    </div>
+    <div class="kpi-card c4">
+      <div class="kpi-top">
+        <div class="kpi-icon">⚠️</div>
+        <span class="kpi-delta" id="d4">▼ 0%</span>
+      </div>
+      <div class="kpi-label">Chi phí thiếu hàng</div>
+      <div class="kpi-value" id="v4">0</div>
+      <div class="kpi-sub">tỷ VNĐ / năm</div>
+    </div>
+    <div class="kpi-card c5">
+      <div class="kpi-top">
+        <div class="kpi-icon">📊</div>
+        <span class="kpi-delta" id="d5">— 0%</span>
+      </div>
+      <div class="kpi-label">Tổng chi phí logistics</div>
+      <div class="kpi-value" id="v5">0</div>
+      <div class="kpi-sub">tỷ VNĐ / năm</div>
+    </div>
+  </div>
+
+  <!-- CHART + RIGHT PANEL -->
+  <div class="content-grid">
+    <div class="chart-section">
+      <div class="section-header">
+        <div>
+          <div class="section-title">📈 Biểu đồ Trade-off Chi phí Logistics</div>
+          <div class="section-subtitle">Phân tích tương quan giữa số lượng kho và các thành phần chi phí</div>
+        </div>
+        <div class="chart-legend">
+          <span class="legend-item"><span class="legend-line" style="background:#3B82F6"></span>Chặng cuối</span>
+          <span class="legend-item"><span class="legend-line" style="background:#14B8A6"></span>Đầu vào</span>
+          <span class="legend-item"><span class="legend-line" style="background:#F59E0B"></span>Kho bãi</span>
+          <span class="legend-item"><span class="legend-line" style="background:#F43F5E"></span>Thiếu hàng</span>
+          <span class="legend-item"><span class="legend-line" style="background:#8B5CF6;height:3px"></span>Tổng CP</span>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="mainChart" role="img" aria-label="Biểu đồ chi phí logistics theo số lượng kho">Biểu đồ trade-off chi phí logistics</canvas>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <!-- AI ANALYSIS -->
+      <div class="ai-box">
+        <div class="ai-header">
+          <div class="ai-pulse"></div>
+          <span class="ai-status">AI Analysis</span>
+        </div>
+        <div class="ai-text" id="aiText">Đang phân tích hệ thống logistics...</div>
+        <div id="aiBadge" class="ai-badge under" style="display:none">📍 Dưới mức tối ưu</div>
+      </div>
+
+      <!-- EOQ -->
+      <div class="eoq-box">
+        <div class="eoq-title">📐 EOQ Optimization</div>
+        <div class="eoq-inputs">
+          <div class="eoq-input-wrap">
+            <label>D (nhu cầu)</label>
+            <input class="eoq-input" type="number" id="eoqD" value="10000" min="1">
+          </div>
+          <div class="eoq-input-wrap">
+            <label>S (đặt hàng)</label>
+            <input class="eoq-input" type="number" id="eoqS" value="500" min="1">
+          </div>
+          <div class="eoq-input-wrap">
+            <label>H (tồn kho)</label>
+            <input class="eoq-input" type="number" id="eoqH" value="20" min="1">
+          </div>
+        </div>
+        <div class="eoq-result">
+          <div>
+            <div style="font-size:10px;color:var(--slate-500);font-weight:600;text-transform:uppercase;margin-bottom:2px">EOQ Tối ưu</div>
+            <div class="eoq-num" id="eoqResult">707</div>
+          </div>
+          <div class="eoq-detail" id="eoqDetail">Đặt hàng <b>707</b> đơn vị mỗi lần để tối thiểu hóa tổng chi phí tồn kho. Số lần đặt hàng/năm: 14.1</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="bottom-grid">
+    <div class="recommend-box">
+      <div class="section-title" style="margin-bottom:6px">🤖 AI Gợi ý Kho Tối ưu</div>
+      <p style="font-size:12px;color:var(--slate-500);margin-bottom:14px">Thuật toán brute-force phân tích toàn bộ 12 phương án để xác định cấu hình tối ưu</p>
+      <button class="btn-primary" id="recommendBtn" onclick="runRecommend()">
+        <span id="recommendBtnTxt">🔍 Chạy phân tích AI</span>
+      </button>
+      <div class="recommend-result" id="recommendResult">
+        <div style="font-size:11px;color:var(--slate-500);text-align:center;margin-bottom:4px">Số kho tối ưu</div>
+        <div class="recommend-num" id="recNum">—</div>
+        <div class="recommend-text" id="recText"></div>
+      </div>
+    </div>
+
+    <div class="export-box">
+      <div class="section-title" style="margin-bottom:6px">💾 Quản lý & Xuất dữ liệu</div>
+      <p style="font-size:12px;color:var(--slate-500);margin-bottom:4px">Lưu trữ và xuất báo cáo phân tích logistics</p>
+      <div class="export-grid">
+        <button class="btn-export" onclick="saveData()">💾 Lưu LocalStorage</button>
+        <button class="btn-export" onclick="loadData()">📂 Tải dữ liệu</button>
+        <button class="btn-export" onclick="exportPDF()">📄 Xuất PDF</button>
+        <button class="btn-export" onclick="exportExcel()">📊 Xuất Excel</button>
+      </div>
+      <div id="savedInfo" style="margin-top:10px;font-size:11px;color:var(--emerald-600);display:none">✓ Đã lưu vào localStorage</div>
+    </div>
+  </div>
+
+  <div class="footer">Captain's Log · Logistics Cost Measurement System · Người thực hiện: Nhân Phong</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+// ===================== DATA MODEL =====================
+const WAREHOUSES = [1,2,3,4,5,6,7,8,9,10,11,12];
+
+// Cost model (tỷ VNĐ) - creates U-shaped total cost curve
+function getCosts(n) {
+  const lastMile   = Math.round(120 / Math.pow(n, 0.72) * 10) / 10;
+  const inbound    = Math.round((18 + n * 6.5) * 10) / 10;
+  const warehouse  = Math.round((8 + Math.pow(n, 1.7) * 3.2) * 10) / 10;
+  const stockout   = Math.round((90 / (1 + n * 0.85)) * 10) / 10;
+  const total      = Math.round((lastMile + inbound + warehouse + stockout) * 10) / 10;
+  return { lastMile, inbound, warehouse, stockout, total };
+}
+
+// Find optimal
+function findOptimal() {
+  let best = { n:1, total:Infinity };
+  for(let n=1;n<=12;n++){
+    const c = getCosts(n);
+    if(c.total < best.total) best = { n, total:c.total };
+  }
+  return best;
+}
+const OPTIMAL = findOptimal();
+
+// All data series
+const allData = {
+  lastMile:  WAREHOUSES.map(n => getCosts(n).lastMile),
+  inbound:   WAREHOUSES.map(n => getCosts(n).inbound),
+  warehouse: WAREHOUSES.map(n => getCosts(n).warehouse),
+  stockout:  WAREHOUSES.map(n => getCosts(n).stockout),
+  total:     WAREHOUSES.map(n => getCosts(n).total),
+};
+
+// ===================== STATE =====================
+let currentW = 3;
+let prevCosts = getCosts(3);
+
+// ===================== CHART =====================
+let chart;
+
+function initChart() {
+  const ctx = document.getElementById('mainChart').getContext('2d');
+  chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: WAREHOUSES.map(n => n + ' kho'),
+      datasets: [
+        { label:'Chặng cuối', data:allData.lastMile,  borderColor:'#3B82F6', backgroundColor:'rgba(59,130,246,.08)', borderWidth:2, tension:.45, pointRadius:4, pointHoverRadius:7, pointBackgroundColor:'#3B82F6', fill:false, borderDash:[] },
+        { label:'Đầu vào',    data:allData.inbound,   borderColor:'#14B8A6', backgroundColor:'rgba(20,184,166,.08)', borderWidth:2, tension:.45, pointRadius:4, pointHoverRadius:7, pointBackgroundColor:'#14B8A6', fill:false },
+        { label:'Kho bãi',    data:allData.warehouse, borderColor:'#F59E0B', backgroundColor:'rgba(245,158,11,.08)', borderWidth:2, tension:.45, pointRadius:4, pointHoverRadius:7, pointBackgroundColor:'#F59E0B', fill:false },
+        { label:'Thiếu hàng', data:allData.stockout,  borderColor:'#F43F5E', backgroundColor:'rgba(244,63,94,.08)', borderWidth:2, tension:.45, pointRadius:4, pointHoverRadius:7, pointBackgroundColor:'#F43F5E', fill:false },
+        { label:'Tổng CP',    data:allData.total,     borderColor:'#8B5CF6', backgroundColor:'rgba(139,92,246,.06)', borderWidth:3, tension:.45, pointRadius:5, pointHoverRadius:9, pointBackgroundColor:'#8B5CF6', fill:true, borderDash:[] },
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      animation:{ duration:400, easing:'easeInOutQuart' },
+      plugins:{
+        legend:{ display:false },
+        tooltip:{
+          backgroundColor:'rgba(15,23,42,.92)',
+          titleColor:'#94A3B8',
+          bodyColor:'#E2E8F0',
+          padding:12,
+          borderColor:'rgba(255,255,255,.08)',
+          borderWidth:1,
+          callbacks:{
+            label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)} tỷ VNĐ`
+          }
+        }
+      },
+      scales:{
+        x:{
+          grid:{ color:'rgba(148,163,184,.15)', drawBorder:false },
+          ticks:{ color:'#94A3B8', font:{ size:11, family:'DM Sans' } }
+        },
+        y:{
+          grid:{ color:'rgba(148,163,184,.15)', drawBorder:false },
+          ticks:{ color:'#94A3B8', font:{ size:11 }, callback: v => v + 'B' },
+          title:{ display:true, text:'Tỷ VNĐ', color:'#94A3B8', font:{ size:11 } }
+        }
+      }
+    }
+  });
+}
+
+function updateChartHighlight(n) {
+  const idx = n - 1;
+  chart.data.datasets.forEach(ds => {
+    const radii = new Array(12).fill(3);
+    radii[idx] = 9;
+    ds.pointRadius = radii;
+    const bgs = ds.data.map((_,i) => i===idx ? ds.borderColor : ds.borderColor+'66');
+    ds.pointBackgroundColor = bgs;
+  });
+  chart.update('none');
+}
+
+// ===================== KPI UPDATE =====================
+function animateValue(el, target, decimals) {
+  const start = parseFloat(el.textContent.replace(/,/g,'')) || 0;
+  const dur = 350;
+  const startTime = performance.now();
+  function step(now) {
+    const t = Math.min((now - startTime) / dur, 1);
+    const ease = t < .5 ? 2*t*t : -1+(4-2*t)*t;
+    const val = start + (target - start) * ease;
+    el.textContent = val.toFixed(decimals);
+    el.classList.add('counting');
+    if(t < 1) requestAnimationFrame(step);
+    else { el.textContent = target.toFixed(decimals); el.classList.remove('counting'); }
+  }
+  requestAnimationFrame(step);
+}
+
+function deltaText(cur, prev) {
+  if(prev === 0) return { text:'—', cls:'up' };
+  const pct = ((cur - prev) / Math.abs(prev) * 100);
+  const abs = Math.abs(pct).toFixed(1);
+  return pct > 0 ? { text:`▲ ${abs}%`, cls:'up' } : { text:`▼ ${abs}%`, cls:'down' };
+}
+
+function updateKPIs(n) {
+  const c = getCosts(n);
+  const p = prevCosts;
+  const vals = [c.lastMile, c.inbound, c.warehouse, c.stockout, c.total];
+  const prevVals = [p.lastMile, p.inbound, p.warehouse, p.stockout, p.total];
+  for(let i=1;i<=5;i++) {
+    animateValue(document.getElementById('v'+i), vals[i-1], 1);
+    const d = deltaText(vals[i-1], prevVals[i-1]);
+    const el = document.getElementById('d'+i);
+    el.textContent = d.text;
+    el.className = 'kpi-delta ' + d.cls;
+  }
+  prevCosts = c;
+}
+
+// ===================== AI ANALYSIS =====================
+function updateAI(n) {
+  const c = getCosts(n);
+  const opt = OPTIMAL;
+  const aiText = document.getElementById('aiText');
+  const badge = document.getElementById('aiBadge');
+  let text, badgeText, badgeClass;
+
+  if(n === opt.n) {
+    text = `Hệ thống hiện đang vận hành tại <strong>điểm tối ưu toàn cục</strong> với ${n} kho phân phối. Theo lý thuyết trade-off logistics (Ballou, 2004), tổng chi phí đạt mức thấp nhất <strong>${c.total.toFixed(1)} tỷ VNĐ/năm</strong> — đây là điểm cân bằng tối ưu giữa chi phí vận tải và chi phí tồn trữ. Khuyến nghị duy trì cấu hình hiện tại.`;
+    badgeText = '✅ Điểm tối ưu toàn cục';
+    badgeClass = 'optimal';
+  } else if(n < opt.n) {
+    const gap = (c.total - opt.total).toFixed(1);
+    text = `Với <strong>${n} kho</strong>, mạng lưới phân phối đang hoạt động <strong>dưới mức tối ưu</strong>. Chi phí vận tải chặng cuối và thiếu hàng chiếm tỷ trọng lớn do mức độ bao phủ địa lý thấp. Mô hình đề xuất bổ sung thêm <strong>${opt.n - n} kho</strong> để giảm tổng chi phí thêm <strong>${gap} tỷ VNĐ/năm</strong> (tương đương ${((gap/c.total)*100).toFixed(0)}%).`;
+    badgeText = '📍 Dưới mức tối ưu';
+    badgeClass = 'under';
+  } else {
+    const gap = (c.total - opt.total).toFixed(1);
+    text = `Với <strong>${n} kho</strong>, mạng lưới đang <strong>vượt mức tối ưu</strong>. Chi phí cố định kho bãi và vận tải đầu vào leo thang vượt qua lợi ích của việc giảm chi phí chặng cuối. Khuyến nghị tái cấu trúc về <strong>${opt.n} kho</strong> để tiết kiệm <strong>${gap} tỷ VNĐ/năm</strong>. Áp dụng chiến lược Hub-and-Spoke để tối ưu chi phí.`;
+    badgeText = '⚠️ Vượt mức tối ưu';
+    badgeClass = 'over';
+  }
+  aiText.innerHTML = text;
+  badge.textContent = badgeText;
+  badge.className = 'ai-badge ' + badgeClass;
+  badge.style.display = 'inline-flex';
+}
+
+// ===================== SLIDER =====================
+function updateAll(n) {
+  currentW = n;
+  // warehouse number
+  document.getElementById('warehouseNum').textContent = n;
+  // ticks
+  for(let i=1;i<=12;i++){
+    const el = document.getElementById('tick'+i);
+    el.className = 'slider-tick' + (i===n?' active':'');
+  }
+  // optimal badge
+  const optBadge = document.getElementById('optBadge');
+  optBadge.classList.toggle('show', n === OPTIMAL.n);
+  // slider progress
+  const slider = document.getElementById('warehouseSlider');
+  const pct = ((n-1)/11)*100;
+  slider.style.background = `linear-gradient(to right,#2563EB ${pct}%,#CBD5E1 ${pct}%)`;
+  // KPIs
+  updateKPIs(n);
+  // Chart
+  updateChartHighlight(n);
+  // AI
+  updateAI(n);
+}
+
+document.getElementById('warehouseSlider').addEventListener('input', function(){
+  updateAll(parseInt(this.value));
+});
+
+// ===================== EOQ =====================
+function calcEOQ() {
+  const D = parseFloat(document.getElementById('eoqD').value)||0;
+  const S = parseFloat(document.getElementById('eoqS').value)||0;
+  const H = parseFloat(document.getElementById('eoqH').value)||0;
+  if(!D||!S||!H) return;
+  const eoq = Math.round(Math.sqrt((2*D*S)/H));
+  const orders = (D/eoq).toFixed(1);
+  const tc = Math.round((eoq/2)*H + (D/eoq)*S);
+  document.getElementById('eoqResult').textContent = eoq.toLocaleString();
+  document.getElementById('eoqDetail').innerHTML = `Đặt <b>${eoq.toLocaleString()}</b> đơn vị/lần · ${orders} lần/năm · TC: <b>${tc.toLocaleString()} VNĐ</b>`;
+}
+['eoqD','eoqS','eoqH'].forEach(id => document.getElementById(id).addEventListener('input', calcEOQ));
+
+// ===================== RECOMMEND =====================
+function runRecommend() {
+  const btn = document.getElementById('recommendBtn');
+  const txt = document.getElementById('recommendBtnTxt');
+  btn.disabled = true;
+  txt.textContent = '⚙️ Đang phân tích...';
+
+  let n = 1;
+  const interval = setInterval(() => {
+    document.getElementById('warehouseSlider').value = n;
+    updateAll(n);
+    if(n >= 12) {
+      clearInterval(interval);
+      setTimeout(() => {
+        updateAll(OPTIMAL.n);
+        document.getElementById('warehouseSlider').value = OPTIMAL.n;
+        const opt = OPTIMAL;
+        document.getElementById('recNum').textContent = opt.n + ' kho';
+        document.getElementById('recText').innerHTML = `Sau khi brute-force phân tích toàn bộ 12 phương án, thuật toán xác định <strong>${opt.n} kho</strong> là cấu hình tối ưu với tổng chi phí thấp nhất <strong>${opt.total.toFixed(1)} tỷ VNĐ/năm</strong>. Đây là điểm cân bằng giữa hiệu quả vận tải (economies of scale) và chi phí tồn trữ hàng hóa, phù hợp với Mô hình Toàn chi phí (Total Cost Model) trong quản trị chuỗi cung ứng.`;
+        document.getElementById('recommendResult').classList.add('show');
+        btn.disabled = false;
+        txt.textContent = '🔍 Chạy lại phân tích';
+        showToast('✅ Phân tích AI hoàn tất!');
+      }, 200);
+    }
+    n++;
+  }, 100);
+}
+
+// ===================== DARK MODE =====================
+function toggleDark() {
+  document.body.parentElement.classList.toggle('dark');
+  updateChartColors();
+}
+function updateChartColors() {
+  const dark = document.documentElement.classList.contains('dark');
+  if(chart) {
+    chart.options.scales.x.grid.color = dark ? 'rgba(255,255,255,.06)' : 'rgba(148,163,184,.15)';
+    chart.options.scales.y.grid.color = dark ? 'rgba(255,255,255,.06)' : 'rgba(148,163,184,.15)';
+    chart.options.scales.x.ticks.color = dark ? '#475569' : '#94A3B8';
+    chart.options.scales.y.ticks.color = dark ? '#475569' : '#94A3B8';
+    chart.update();
+  }
+}
+
+// ===================== SAVE/LOAD =====================
+function saveData() {
+  const data = {
+    warehouses: currentW,
+    eoqD: document.getElementById('eoqD').value,
+    eoqS: document.getElementById('eoqS').value,
+    eoqH: document.getElementById('eoqH').value,
+    savedAt: new Date().toISOString()
+  };
+  try {
+    localStorage.setItem('lcms_data', JSON.stringify(data));
+    document.getElementById('savedInfo').style.display='block';
+    setTimeout(()=>document.getElementById('savedInfo').style.display='none', 2000);
+    showToast('💾 Đã lưu dữ liệu thành công');
+  } catch(e) { showToast('❌ Không thể lưu (localStorage không khả dụng)'); }
+}
+function loadData() {
+  try {
+    const raw = localStorage.getItem('lcms_data');
+    if(!raw){ showToast('📂 Không có dữ liệu đã lưu'); return; }
+    const d = JSON.parse(raw);
+    document.getElementById('warehouseSlider').value = d.warehouses;
+    document.getElementById('eoqD').value = d.eoqD;
+    document.getElementById('eoqS').value = d.eoqS;
+    document.getElementById('eoqH').value = d.eoqH;
+    updateAll(parseInt(d.warehouses));
+    calcEOQ();
+    showToast('📂 Đã tải dữ liệu đã lưu');
+  } catch(e) { showToast('❌ Lỗi tải dữ liệu'); }
+}
+
+// ===================== EXPORT =====================
+function exportPDF() {
+  const c = getCosts(currentW);
+  const content = `LOGISTICS COST MEASUREMENT SYSTEM\nDeveloped by Captain's Log | Người thực hiện: Nhân Phong\n\nBÁO CÁO PHÂN TÍCH CHI PHÍ LOGISTICS\nNgày xuất: ${new Date().toLocaleDateString('vi-VN')}\n\nSỐ KHO HIỆN TẠI: ${currentW} kho\n\nKẾT QUẢ PHÂN TÍCH:\n• Vận tải chặng cuối: ${c.lastMile.toFixed(1)} tỷ VNĐ/năm\n• Vận tải đầu vào: ${c.inbound.toFixed(1)} tỷ VNĐ/năm\n• Chi phí kho bãi: ${c.warehouse.toFixed(1)} tỷ VNĐ/năm\n• Chi phí thiếu hàng: ${c.stockout.toFixed(1)} tỷ VNĐ/năm\n• TỔNG CHI PHÍ: ${c.total.toFixed(1)} tỷ VNĐ/năm\n\nGỢI Ý TỐI ƯU: ${OPTIMAL.n} kho (${OPTIMAL.total.toFixed(1)} tỷ VNĐ/năm)\n\nMô hình: Trade-off Logistics Cost Model (Ballou, 2004)\nEOQ Tối ưu: ${Math.round(Math.sqrt((2*parseFloat(document.getElementById('eoqD').value)*parseFloat(document.getElementById('eoqS').value))/parseFloat(document.getElementById('eoqH').value)))} đơn vị/lần`;
+  const blob = new Blob([content], {type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=`LCMS_Report_${currentW}kho_${new Date().toISOString().slice(0,10)}.txt`;
+  a.click(); showToast('📄 Đã xuất báo cáo PDF (txt)');
+}
+
+function exportExcel() {
+  let csv = 'Số kho,Vận tải chặng cuối,Vận tải đầu vào,Chi phí kho bãi,Chi phí thiếu hàng,Tổng chi phí\n';
+  for(let n=1;n<=12;n++){
+    const c=getCosts(n);
+    csv+=`${n},${c.lastMile},${c.inbound},${c.warehouse},${c.stockout},${c.total}\n`;
+  }
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`LCMS_Data_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click(); showToast('📊 Đã xuất Excel (CSV)');
+}
+
+// ===================== TOAST =====================
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+// ===================== LOADING BAR =====================
+function runLoadingBar() {
+  const bar = document.getElementById('loadingBar');
+  bar.style.width = '0'; bar.style.transition = 'width .8s ease';
+  setTimeout(()=>bar.style.width='70%', 50);
+  setTimeout(()=>{ bar.style.width='100%'; setTimeout(()=>bar.style.display='none',400); }, 600);
+}
+
+// ===================== INIT =====================
+window.addEventListener('load', () => {
+  runLoadingBar();
+  initChart();
+  updateAll(3);
+  calcEOQ();
+  try {
+    const raw = localStorage.getItem('lcms_data');
+    if(raw) showToast('💡 Có dữ liệu đã lưu — nhấn "Tải dữ liệu" để phục hồi');
+  } catch(e){}
+});
+</script>
